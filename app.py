@@ -1,10 +1,10 @@
 from http.server import HTTPServer
-from router import employeerouter
+from router import employeeRouter
 from database.connection import init_database
 
 def run_server():
     init_database()
-    server = HTTPServer(("", 8000), employeerouter)
+    server = HTTPServer(("", 8000), employeeRouter)
     print("🚀 Server running at http://localhost:8000")
     server.serve_forever()
 
