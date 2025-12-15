@@ -1,7 +1,7 @@
 from http.server import HTTPServer
 from router import employeeRouter
 from database.connection import init_database
-
+from router import handle_ui_routes
 def run_server():
     init_database()
     server = HTTPServer(("", 8000), employeeRouter)
