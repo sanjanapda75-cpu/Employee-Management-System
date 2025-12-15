@@ -17,8 +17,8 @@ def db_create(data):
     conn = get_connection()
     now = datetime.now().isoformat()
     cur = conn.execute(
-        "INSERT INTO employee (name, email, address, department, salary(paid/not paid)) VALUES (?, ?, ?, ?, ?)",
-        (data["name"], data["email"], data["address"], data["department"], data["salary(paid/not paid)"])
+        "INSERT INTO employee (name, email, address, department, salary_status) VALUES (?, ?, ?, ?, ?)",
+        (data["name"], data["email"], data["address"], data["department"], data["salary_status"])
     )
     conn.commit()
     new_id = cur.lastrowid

@@ -1,6 +1,7 @@
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse
+from core.static import handle_ui_routes
 
 from controller.employee import (
     get_all_employee,
@@ -15,39 +16,39 @@ from core.responses import send_404
 from core.middleware import add_cors_headers
 
 
-# -------------------------------
-# UI ROUTER (SPA shell + static)
-# -------------------------------
+# # -------------------------------
+# # UI ROUTER (SPA shell + static)
+# # -------------------------------
 
-FRONTEND_ROUTES = {"/", "/home", "/employees", "/payroll", "projects"}
+# FRONTEND_ROUTES = {"/", "/home", "/employees", "/payroll", "projects"}
 
-def handle_ui_routes(handler, path):
-    if path in FRONTEND_ROUTES:
-        serve_static(handler, "frontend/pages/index.html")
-        return True
+# def handle_ui_routes(handler, path):
+#     if path in FRONTEND_ROUTES:
+#         serve_static(handler, "frontend/pages/index.html")
+#         return True
 
-    if path.endswith(".html"):
-        stripped = path.replace(".html", "")
-        if stripped in FRONTEND_ROUTES:
-            serve_static(handler, "frontend/pages/index.html")
-            return True
+#     if path.endswith(".html"):
+#         stripped = path.replace(".html", "")
+#         if stripped in FRONTEND_ROUTES:
+#             serve_static(handler, "frontend/pages/index.html")
+#             return True
 
-    if path.startswith("/frontend/"):
-        serve_static(handler, path.lstrip("/"))
-        return True
+#     if path.startswith("/frontend/"):
+#         serve_static(handler, path.lstrip("/"))
+#         return True
 
-    if path == "/openapi.yaml":
-        serve_static(handler, "openapi.yaml")
-        return True
+#     if path == "/openapi.yaml":
+#         serve_static(handler, "openapi.yaml")
+#         return True
 
-    return False
-
-
+#     return False
 
 
-# -------------------------------
-# MAIN ROUTER CLASS
-# -------------------------------
+
+
+# # -------------------------------
+# # MAIN ROUTER CLASS
+# # -------------------------------
 
 class employeeRouter(BaseHTTPRequestHandler):
 

@@ -17,8 +17,8 @@ def init_database():
             email TEXT,
             address TEXT,
             department TEXT,
-            salary(paid/not paid) TEXT
-        )
+            salary_status TEXT
+        );
     """)
     conn.commit()
     conn.close()
