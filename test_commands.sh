@@ -12,7 +12,7 @@ curl -X POST "https://glowing-guacamole-q7jvp4779w44cg7v-8000.app.github.dev/api
     "email": "sanjana@example.com",
     "address": "odisha",
     "department": "sales",
-    "salary_status":paid
+    "salary_status": "paid"
   }'
 
 # D. Update employee
@@ -22,7 +22,7 @@ curl -X PUT "https://glowing-guacamole-q7jvp4779w44cg7v-8000.app.github.dev/api/
     "name": "sanjana Updated",
     "email": "sanjana_new@example.com",
     "address": "odisha",
-    "department": "sales" ,
+    "department": "sales",
     "salary_status": "paid"
   }'
 
