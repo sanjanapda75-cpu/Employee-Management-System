@@ -29,9 +29,9 @@ def db_update(employee_id, data):
     conn = get_connection()
     now = datetime.now().isoformat()
     conn.execute("""
-        UPDATE employee SET name=?, email=?, course=?, year=?, updated_at=?
+        UPDATE employee SET name=?, email=?, address=?, department=?, salary_status=?, updated_at=?
         WHERE id=?
-    """, (data["name"], data["email"], data["course"], data["year"], now, employee_id))
+    """, (data["name"], data["email"], data["address"], data["department"],data["salary_status"], now, employee_id))
     conn.commit()
     conn.close()
     return db_get_one(employee_id)

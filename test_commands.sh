@@ -16,7 +16,7 @@ curl -X POST "https://glowing-guacamole-q7jvp4779w44cg7v-8000.app.github.dev/api
   }'
 
 # D. Update employee
-curl -X PUT "https://glowing-guacamole-q7jvp4779w44cg7v-8000.app.github.dev/api/employee" \
+curl -X PUT "https://glowing-guacamole-q7jvp4779w44cg7v-8000.app.github.dev/api/employee/1" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "sanjana Updated",
