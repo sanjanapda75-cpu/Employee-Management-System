@@ -1,8 +1,8 @@
-import { initStudentController } from "./controllers/studentController.js";
-import { router } from "./router/viewRouter.js";
+import { initEmployeecontroller } from "./controllers/Employeecontroller.js";
+import { router } from "./router/viewrouter.js";
 
 // Initialize app on page load
 window.addEventListener("DOMContentLoaded", () => {
   router();
-  initStudentController();
+  initEmployeecontroller();
 });

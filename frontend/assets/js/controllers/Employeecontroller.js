@@ -4,7 +4,7 @@ import {
     apiCreate, 
     apiUpdate, 
     apiDelete 
-} from "../services/employeeService.js";
+} from "../services/Employeeservice.js";
 
 import { showAlert } from "../components/Alert.js";
 import { renderEmployeetable } from "../components/Employeetable.js";
@@ -15,7 +15,7 @@ import { $, createElement } from "../utils/dom.js";
 
 // Setup event listeners and load initial data
 // Initialize the main logic and set up all necessary event listeners
-export function initemployeeController() {
+export function initEmployeecontroller() {
   // Start by fetching and displaying all employee data immediately upon load
   loademployees();
 
@@ -66,7 +66,7 @@ export async function loademployee() {
   table.style.display = "none";
 
   // Asynchronously fetch all employee records from the backend API
-  const employees = await apiGetAll();
+  const employee = await apiGetAll();
 
   // Store the retrieved employee array in the application's global state
   setState({ employee });
