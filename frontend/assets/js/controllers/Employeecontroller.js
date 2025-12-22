@@ -14,78 +14,69 @@ import { setState, getState } from "../state/store.js";
 import { $, createElement } from "../utils/dom.js";
 
 // Setup event listeners and load initial data
-// Initialize the main logic and set up all necessary event listeners
 export function initEmployeecontroller() {
-  // Start by fetching and displaying all employee data immediately upon load
-  loademployees();
+  // Start by fetching and displaying data
+  loademployees(); // Standardized to plural
 
   // --- Handle Form Submissions ---
+  const form = $("employeeForm");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  // Attach a listener to the 'submit' event of the employee input form
-  $("employeeForm").addEventListener("submit", async (e) => {
-    // Prevent the browser's default form submission behavior (page refresh)
-    e.preventDefault();
+      // FIXED: Added missing comma after department
+      const data = {
+        name: $("name").value.trim(),
+        email: $("email").value.trim(),
+        address: $("address").value.trim(),
+        department: $("department").value.trim(), // Added comma here
+        salary_status: $("salary_status").value.trim()
+      };
 
-    // Collect data from the input fields using the custom '$' selector
-    const data = {
-      name: $("name").value.trim(),   // Get name value, remove whitespace
-      email: $("email").value.trim(), // Get email value
-      course: $("course").value.trim(), // Get course value
-      year: $("year").value.trim()    // Get year value
-    };
+      const { editingId } = getState();
 
-    // Check the application state to see if we are currently editing an existing record
-    const { editingId } = getState();
-
-    // Use a ternary operator to decide which action to take:
-    editingId
-      ? await updateemployee(editingId, data) // If editingId exists, update the employee
-      : await createNewemployee(data);        // Otherwise, create a new employee
-  });
+      editingId
+        ? await updateemployee(editingId, data)
+        : await createNewemployee(data);
+    });
+  }
 
   // --- Handle Cancel Button Click ---
-
-  // Attach a listener to the 'click' event of the cancel button
-  $("cancelBtn").addEventListener("click", () => {
-    // Clear the editing state (set the ID to null)
-    setState({ editingId: null });
-    // Clear all input fields in the form
-    resetForm();
-  });
+  const cancelBtn = $("cancelBtn");
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      setState({ editingId: null });
+      resetForm();
+    });
+  }
 }
 
-
-// Fetch all employee data from the API and update the user interface
-export async function loademployee() {
-  // Get references to the loading spinner and the main data table elements
+// FIXED: Standardized name to plural 'loademployees'
+export async function loademployees() {
   const spinner = $("loadingSpinner");
   const table = $("employeesTableContainer");
 
-  // Show the spinner and hide the table to indicate a loading state
-  spinner.style.display = "block";
-  table.style.display = "none";
+  if (spinner) spinner.style.display = "block";
+  if (table) table.style.display = "none";
 
-  // Asynchronously fetch all employee records from the backend API
   const employee = await apiGetAll();
 
-  // Store the retrieved employee array in the application's global state
   setState({ employee });
-  // Render the fetched employee data into the HTML table structure
-  renderemployeeTable(employee);
+  
+  // FIXED: Matches import 'renderEmployeetable'
+  renderEmployeetable(employee);
 
-  // Hide the spinner and show the table now that the data is loaded and displayed
-  spinner.style.display = "none";
-  table.style.display = "block";
+  if (spinner) spinner.style.display = "none";
+  if (table) table.style.display = "block";
 }
-
 
 // Create a new employee
 export async function createNewemployee(data) {
   const res = await apiCreate(data);
   if (res.ok) {
-    showAlert("employee added!");
+    showAlert("Employee added!");
     resetForm();
-    loademployees();
+    loademployees(); // Fixed naming
   }
 }
 
@@ -106,7 +97,7 @@ export async function updateemployee(id, data) {
     showAlert("Updated!");
     resetForm();
     setState({ editingId: null });
-    loademployees();
+    loademployees(); // Fixed naming
   }
 }
 
@@ -115,8 +106,8 @@ export async function deleteemployeeAction(id) {
   if (!confirm("Delete this employee?")) return;
 
   const res = await apiDelete(id);
- 	if (res.ok) {
+  if (res.ok) {
     showAlert("Deleted!");
-    loademployees();
+    loademployees(); // Fixed naming
   }
 }
