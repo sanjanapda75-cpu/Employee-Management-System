@@ -4,7 +4,7 @@ import { editemployee, deleteemployeeAction } from "../controllers/Employeecontr
 // Renders the list of employees into an HTML table
 export function renderEmployeetable(employee) {
   // Get references to the table body where rows will be inserted and the 'no employees' message
-  const body = $("employeesTableBody");
+  const body = $("EmployeeTableBody");
   const noemployee = $("noemployee");
 
   // Clear any existing rows from the table body before rendering new data

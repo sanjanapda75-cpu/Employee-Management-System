@@ -8,10 +8,10 @@
   <!-- Add / Edit employee Form -->
   <div class="bg-white p-5 rounded shadow mb-8">
     <h2 class="font-semibold mb-3 text-lg">Add New employee</h2>
-    <form id="Employeeform" class="space-y-3">
+    <form id="EmployeeForm" class="space-y-3">
       <input type="text" id="name" placeholder="Name" required class="w-full border rounded px-3 py-2">
       <input type="email" id="email" placeholder="Email" required class="w-full border rounded px-3 py-2">
-      <input type="text" id="course" placeholder="address" required class="w-full border rounded px-3 py-2">
+      <input type="text" id="address" placeholder="address" required class="w-full border rounded px-3 py-2">
       <input type="text" id="department" placeholder="department" required class="w-full border rounded px-3 py-2">
       <input type="text" id="salary_status" placeholder="salary_status" required class="w-full border rounded px-3 py-2">
 
@@ -39,7 +39,7 @@
     </div>
 
     <!-- employees Table Container -->
-    <div id="EmployeetableContainer" class="hidden overflow-x-auto">
+    <div id="EmployeesTableContainer" class="hidden overflow-x-auto">
       <table class="min-w-full text-left border">
         <thead class="bg-gray-200">
           <tr>
@@ -52,7 +52,7 @@
             <th class="px-3 py-2">Actions</th>
           </tr>
         </thead>
-        <tbody id="EmployeetableBody"></tbody>
+        <tbody id="EmployeeTableBody"></tbody>
       </table>
 
       <p id="noemployee" class="text-center text-gray-500 mt-3 hidden">

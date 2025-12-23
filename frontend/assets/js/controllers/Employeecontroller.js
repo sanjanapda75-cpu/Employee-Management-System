@@ -19,7 +19,7 @@ export function initEmployeecontroller() {
   loademployees(); // Standardized to plural
 
   // --- Handle Form Submissions ---
-  const form = $("employeeForm");
+  const form = $("EmployeeForm");
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -29,7 +29,7 @@ export function initEmployeecontroller() {
         name: $("name").value.trim(),
         email: $("email").value.trim(),
         address: $("address").value.trim(),
-        department: $("department").value.trim(), // Added comma here
+        department: $("department").value.trim(),
         salary_status: $("salary_status").value.trim()
       };
 
@@ -54,7 +54,7 @@ export function initEmployeecontroller() {
 // FIXED: Standardized name to plural 'loademployees'
 export async function loademployees() {
   const spinner = $("loadingSpinner");
-  const table = $("employeesTableContainer");
+  const table = $("EmployeesTableContainer");
 
   if (spinner) spinner.style.display = "block";
   if (table) table.style.display = "none";

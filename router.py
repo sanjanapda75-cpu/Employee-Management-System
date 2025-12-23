@@ -20,7 +20,16 @@ from core.middleware import add_cors_headers
 # UI ROUTER (SPA shell + static)
 # -------------------------------
 
-FRONTEND_ROUTES = {"/", "/home", "/employees", "/payroll", "projects"}
+FRONTEND_ROUTES = {
+    "/",
+    "/home",
+    "/employee",
+    "/payroll",
+    "/projects"
+}
+
+
+
 
 def handle_ui_routes(handler, path):
     if path in FRONTEND_ROUTES:
@@ -37,8 +46,9 @@ def handle_ui_routes(handler, path):
         serve_static(handler, path.lstrip("/"))
         return True
 
-    if path == "/openapi.yaml":
-        serve_static(handler, "openapi.yaml")
+    # SPA fallback: any non-API route
+    if not path.startswith("/api"):
+        serve_static(handler, "frontend/pages/index.html")
         return True
 
     return False

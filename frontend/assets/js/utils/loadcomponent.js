@@ -4,5 +4,6 @@ export async function loadComponent(selector, url) {
   if (!target) return;
 
   const html = await fetch(url).then(res => res.text());
+  console.log(html)
   target.innerHTML = html;
 }

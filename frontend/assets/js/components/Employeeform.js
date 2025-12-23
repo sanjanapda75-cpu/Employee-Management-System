@@ -3,7 +3,7 @@ import { $, createElement } from "../utils/dom.js";
 // Resets the input form to its default state for creating a new employee
 export function resetForm() {
   // Use the native .reset() method on the HTML form element
-  $("employeeForm").reset();
+  $("EmployeeForm").reset();
 
   // Change the submit button text back to "Add employee"
   $("submitBtn").textContent = "Add employee";

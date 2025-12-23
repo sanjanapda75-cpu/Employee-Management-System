@@ -3,6 +3,7 @@ import { initEmployeecontroller } from "../controllers/Employeecontroller.js";
 // Load a view into #app container
 async function loadView(path) {
   const html = await fetch(path).then(res => res.text());
+  console.log(html)
   document.querySelector("#app").innerHTML = html;
 }
 
