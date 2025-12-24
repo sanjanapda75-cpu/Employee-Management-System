@@ -40,44 +40,58 @@ A robust full-stack project built with **Python (vanilla backend)** and **Vanill
 
 ## 🏗️ Project Structure
 
-```text
 EMPLOYEE-MANAGEMENT-SYSTEM/
-│
-[cite_start]├── app.py                     # Starts the Python server [cite: 3088]
-[cite_start]├── router.py                  # Handles API + UI route logic [cite: 3339]
-[cite_start]├── employee.db                # SQLite database file [cite: 556]
-│
-[cite_start]├── controller/                # API Logic handlers [cite: 43]
-[cite_start]│   └── employee.py            # CRUD functions [cite: 60]
-│
-[cite_start]├── services/                  # Business logic layer [cite: 107]
-[cite_start]│   └── employee_service.py    # Database interaction [cite: 3054]
-│
-[cite_start]├── database/                  # SQLite configuration [cite: 68]
-[cite_start]│   ├── connection.py          # Database setup and connection [cite: 582]
-[cite_start]│   └── queries.py             # SQL query statements [cite: 594]
-│
-[cite_start]├── core/                      # Server engine components [cite: 64]
-[cite_start]│   ├── static.py              # Manual static file server [cite: 205]
-[cite_start]│   ├── middleware.py          # CORS and header management [cite: 202]
-[cite_start]│   ├── request.py             # JSON body parsing [cite: 203]
-[cite_start]│   └── responses.py           # JSON and 404 helpers [cite: 204]
-│
-[cite_start]└── frontend/                  # Frontend SPA [cite: 76]
-    [cite_start]├── pages/                 # HTML templates (home, employee, invoice, etc.) [cite: 2298]
-    [cite_start]├── env.js                 # Global configuration [cite: 38]
-    └── assets/
-        [cite_start]├── css/               # Tailwind and custom styles [cite: 81]
-        └── js/
-            [cite_start]├── router/        # SPA navigation logic [cite: 1101]
-            [cite_start]├── components/    # Reusable UI elements [cite: 87]
-            [cite_start]├── controllers/   # Frontend business logic [cite: 100]
-            [cite_start]├── state/         # Global app state management [cite: 1105]
-            [cite_start]└── utils/         # DOM helpers ($, createElement) [cite: 1110]
-
-```
-
----
+├── controller/                 # Backend route controllers
+│   ├── employee.py             # Logic for employee CRUD
+│   ├── payroll.py              # Logic for payroll data
+│   └── project.py              # Logic for project management
+├── core/                       # Backend core functionality
+│   ├── middleware.py           # CORS and request handling
+│   ├── request.py              # JSON parsing utilities
+│   ├── responses.py            # Standardized HTTP responses
+│   └── static.py               # Static file server logic
+├── database/                   # Data persistence layer
+│   ├── connection.py           # SQLite3 connection & table init
+│   └── queries.py              # SQL query definitions
+├── frontend/                   # Frontend assets and UI
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── style.css       # Global custom styles
+│   │   └── js/
+│   │       ├── components/     # UI reusable components (HTML/JS)
+│   │       │   ├── Alert.js
+│   │       │   ├── Employeeform.js
+│   │       │   ├── Employeetable.js
+│   │       │   ├── Footer.html
+│   │       │   └── Header.html
+│   │       ├── controllers/    # Client-side logic for views
+│   │       │   ├── Employeecontroller.js
+│   │       │   ├── PayrollController.js
+│   │       │   └── ProjectController.js
+│   │       ├── router/         # Client-side SPA routing
+│   │       │   └── viewrouter.js
+│   │       ├── services/       # API communication (Fetch)
+│   │       │   └── Employeeservice.js
+│   │       ├── state/          # Global state management
+│   │       │   └── store.js
+│   │       └── utils/          # JS helper functions
+│   │           ├── dom.js
+│   │           └── loadcomponent.js
+│   ├── pages/                  # SPA View Templates
+│   │   ├── 404.html
+│   │   ├── employee.html       # Manage Employees view
+│   │   ├── events.html         # Company events view
+│   │   ├── home.html           # Landing page
+│   │   ├── index.html          # Main SPA Entry point
+│   │   ├── invoice.html        # Billing/Invoice view
+│   │   ├── payroll.html        # Salary summary view
+│   │   └── projects.html       # Internal projects view
+│   └── env.js                  # Frontend environment variables
+├── app.py                      # Main backend server entry point
+├── employee.db                 # SQLite database file
+├── router.py                   # Backend API route definitions
+├── README.md                   # Project documentation
+└── test_commands.sh            # Shell script for testing API endpoints
 
 ## 📊 Logic & Diagrams
 
