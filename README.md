@@ -1,138 +1,122 @@
-# 📊 Employee Management System – README
+# 📘 Employee Management System – README
 
-A robust full-stack project built with **Python (vanilla backend)** and **Vanilla JavaScript + Tailwind CSS (frontend)**. This project implements a Single-Page Application (SPA) architecture to manage corporate employee records with dynamic data synchronization.
+A mini full-stack project built with **Python (backend)** and **Vanilla JavaScript + Tailwind (frontend)**. This project helps you understand how real web apps work by demonstrating routing, APIs, DOM manipulation, state management, and frontend-backend communication.
 
 ## 🚀 What This Project Demonstrates
 
 ### Full Stack Basics
 
-* **REST APIs**: How a backend serves employee data over JSON endpoints.
+* **REST APIs**: How a backend serves data over JSON endpoints.
 
-* **Frontend-Backend Sync**: How the UI updates dynamically by fetching data from the server.
+* **Data Flow**: How a frontend fetches data and updates the UI dynamically.
 
-* **State Management**: Using a global store to maintain consistent data across different views like Manage and Payroll.
+* **Project Organization**: How to organize files in a modular, professional project.
+
 
 
 ### Frontend Concepts
 
-* **Single Page Application (SPA)**: Custom routing that injects HTML into the `#app` container without page reloads.
+* **Single Page Application (SPA)**: Dynamic routing without page reloads using a main shell.
 
-* **Modular JavaScript**: Using ES modules for components, controllers, and services.
+* **Modular JavaScript**: Using ES modules to import logic and components.
 
-* **Tailwind CSS**: Modern styling via CDN for a professional, responsive layout.
+* **State Management**: Maintaining a global application state to sync data across different views.
 
-* **Dynamic Rendering**: Creating DOM elements on the fly to display employee tables and statistics.
+* **Component Structure**: Organized UI elements including Header, Footer, EmployeeForm, and EmployeeTable.
+
 
 
 ### Backend Concepts
 
-* **Raw Python Server**: Built using `BaseHTTPRequestHandler` without frameworks like Flask or FastAPI.
+* **Raw Python Server**: Built without frameworks to learn how HTTP actually works.
 
-* **Manual Static Serving**: A custom module to handle MIME types and serve CSS/JS files.
+* **Manual Static Serving**: Logic for serving HTML, CSS, and JS files with correct MIME types.
 
-* **SQLite Database**: A persistent, file-based database for all employee records.
-
-* **CRUD Logic**: Backend handlers for Create, Read, Update, and Delete operations.
+* **SQLite Database**: Permanent file-based storage for records.
 
 
-
----
 
 ## 🏗️ Project Structure
 
+```text
 EMPLOYEE-MANAGEMENT-SYSTEM/
-├── controller/                 # Backend route controllers
-│   ├── employee.py             # Logic for employee CRUD
-│   ├── payroll.py              # Logic for payroll data
-│   └── project.py              # Logic for project management
-├── core/                       # Backend core functionality
-│   ├── middleware.py           # CORS and request handling
-│   ├── request.py              # JSON parsing utilities
-│   ├── responses.py            # Standardized HTTP responses
-│   └── static.py               # Static file server logic
-├── database/                   # Data persistence layer
-│   ├── connection.py           # SQLite3 connection & table init
-│   └── queries.py              # SQL query definitions
-├── frontend/                   # Frontend assets and UI
+├── app.py                     # Starts the Python server 
+├── router.py                  # Handles API + UI routes 
+│
+├── controller/                # API logic (CRUD operations)
+│   └── employee.py            # Employee CRUD functions
+├── services/                  # Business logic layer 
+│   └── employee_service.py    # Bridge between controller and database 
+├── database/                  # SQLite setup and functions 
+│   ├── connection.py          # Database initialization
+│   └── queries.py             # SQL query definitions 
+│
+├── core/                      # Server engine core modules 
+│   ├── static.py              # Manual static file server
+│   ├── middleware.py          # CORS header handling
+│   ├── request.py             # JSON request parsing
+│   └── responses.py           # JSON and 404 response helpers
+│
+├── frontend/
+│   ├── pages/                 # SPA View templates 
+│   │   ├── home.html          # Landing page 
+│   │   ├── employee.html      # Manage Employee UI 
+│   │   ├── payroll.html       # Salary summary 
+│   │   └── index.html         # Main SPA shell 
 │   ├── assets/
-│   │   ├── css/
-│   │   │   └── style.css       # Global custom styles
-│   │   └── js/
-│   │       ├── components/     # UI reusable components (HTML/JS)
-│   │       │   ├── Alert.js
-│   │       │   ├── Employeeform.js
-│   │       │   ├── Employeetable.js
-│   │       │   ├── Footer.html
-│   │       │   └── Header.html
-│   │       ├── controllers/    # Client-side logic for views
-│   │       │   ├── Employeecontroller.js
-│   │       │   ├── PayrollController.js
-│   │       │   └── ProjectController.js
-│   │       ├── router/         # Client-side SPA routing
-│   │       │   └── viewrouter.js
-│   │       ├── services/       # API communication (Fetch)
-│   │       │   └── Employeeservice.js
-│   │       ├── state/          # Global state management
-│   │       │   └── store.js
-│   │       └── utils/          # JS helper functions
-│   │           ├── dom.js
-│   │           └── loadcomponent.js
-│   ├── pages/                  # SPA View Templates
-│   │   ├── 404.html
-│   │   ├── employee.html       # Manage Employees view
-│   │   ├── events.html         # Company events view
-│   │   ├── home.html           # Landing page
-│   │   ├── index.html          # Main SPA Entry point
-│   │   ├── invoice.html        # Billing/Invoice view
-│   │   ├── payroll.html        # Salary summary view
-│   │   └── projects.html       # Internal projects view
-│   └── env.js                  # Frontend environment variables
-├── app.py                      # Main backend server entry point
-├── employee.db                 # SQLite database file
-├── router.py                   # Backend API route definitions
-├── README.md                   # Project documentation
-└── test_commands.sh            # Shell script for testing API endpoints
+│   │   ├── css/style.css      # Custom styling
+│   │   ├── js/
+│   │   │   ├── router/        # SPA view router
+│   │   │   ├── components/    # Reusable UI components 
+│   │   │   ├── controllers/   # Frontend business logic 
+│   │   │   ├── services/      # Fetch API calls 
+│   │   │   ├── state/         # Global store 
+│   │   │   └── utils/         # Helper functions
+│   └── env.js                 # Environment config 
+│
+└── employee.db                # SQLite database file
 
-## 📊 Logic & Diagrams
+```
 
-### 1. Application Flowchart
+## 🔌 How the App Works
 
-* **Routing**: When a user clicks a link with `data-link`, the `viewrouter.js` intercepts the event, updates the URL via `history.pushState`, and fetches the requested HTML into the `#app` shell.
+1. **User visits /employee**: Backend serves `index.html` (the SPA shell). The `viewrouter.js` then loads the employee template into the main app container.
 
-* **Data Fetching**: The `Employeecontroller` calls `apiGetAll`, which hits the `/api/employee` endpoint on the Python server.
-
-* **State Sync**: Data is saved to `store.js`, which then triggers `renderEmployeetable` and `updatePayrollStats` to keep the UI synchronized across all pages.
+2. **JavaScript Controller Runs**: It initializes event listeners, fetches employee data via `apiGetAll()`, and renders it into the table.
 
 
+3. **Manage Data**:
+ * **Add**: Submitting the form sends a `POST` request to `/api/employee`.
 
-### 2. Entity-Relationship (ER) Diagram
+* **Sync**: On success, the list reloads and updates the "All Employees" and "Payroll" views dynamically using global state.
 
-* **Employee Table**:
-* `id` (INTEGER, PK): Unique identifier.
-* `name`, `email`, `address`, `department` (TEXT): Employee details.
-* `salary_status` (TEXT): Tracks payment status.
-* `updated_at` (TEXT): Timestamp of last modification.
+4. **Edit / Delete**:
+* **Edit**: Loads existing data into the form for modification.
 
+* **Delete**: Triggers `DELETE /api/employee/:id` and refreshes the UI.
+
+
+## 🗄️ Backend API
+
+| Method | Path | Action |
+| --- | --- | --- |
+| **GET** | `/api/employee` | Retrieve all employees 
+
+ |
+| **GET** | `/api/employee/:id` | Retrieve one employee 
+
+ |
+| **POST** | `/api/employee` | Create a new employee 
+
+ |
+| **PUT** | `/api/employee/:id` | Update an employee 
+
+ |
+| **DELETE** | `/api/employee/:id` | Delete an employee 
+
+ |
 
 ---
 
-## 🎨 Dynamic Features
-
-* **Synced Directory**: Employee records added or edited in the **Manage** page are instantly available in other views through the shared `loademployees` logic.
-  
-* **Live Payroll Calculation**: The Payroll page dynamically updates the **Total Staff** and **Monthly Payout** by multiplying the current employee count by a fixed average.
-
-* **6-Month Event Timeline**: The Events page displays a pre-configured timeline of company activities to visualize future corporate scheduling.
-
-* **Comprehensive Invoices**: Multiple billing templates (Invoices #099, #100, #101) are included to demonstrate billing layout and space management.
-
-
----
-
-## 📦 Run the App
-
-1. **Start Server**: `python app.py`.
-
-
-2. **Visit**: `http://localhost:8000`.
+©2026 Full Stack Employee Management App built by Sanjana Panda.
 
