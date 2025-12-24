@@ -19,13 +19,16 @@ from core.middleware import add_cors_headers
 # -------------------------------
 # UI ROUTER (SPA shell + static)
 # -------------------------------
-
+# In router.py, update FRONTEND_ROUTES
 FRONTEND_ROUTES = {
     "/",
     "/home",
     "/employee",
-    "/payroll",
-    "/projects"
+    "/all-employees", 
+    "/payroll",       
+    "/invoice",
+    "/projects",   
+    "/events"     
 }
 
 

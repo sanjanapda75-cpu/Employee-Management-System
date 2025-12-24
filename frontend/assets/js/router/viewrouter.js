@@ -12,17 +12,22 @@ export async function router() {
   const path = window.location.pathname;
 
   if (path === "/" || path === "/home") {
-    await loadView("/frontend/pages/home.html");
-  }
-
-  else if (path === "/employee") {
-    await loadView("/frontend/pages/employee.html");
-    initEmployeecontroller();
-  }
-
-  // else {
-  //   await loadView("/frontend/pages/404.html");
-  // }
+        await loadView("/frontend/pages/home.html");
+    } else if (path === "/employee") {
+        await loadView("/frontend/pages/employee.html");
+        initEmployeecontroller();
+    } else if (path === "/all-employees") {
+        await loadView("/frontend/pages/all-employees.html");
+        // Reuse loademployees from controller
+    } else if (path === "/payroll") {
+        await loadView("/frontend/pages/payroll.html");
+    } else if (path === "/invoice") {
+        await loadView("/frontend/pages/invoice.html");
+    } else if (path === "/projects") {
+        await loadView("/frontend/pages/projects.html");
+    } else if (path === "/events") {
+        await loadView("/frontend/pages/events.html");
+    }
 }
 
 // Make links work without page reload

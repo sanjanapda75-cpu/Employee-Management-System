@@ -8,17 +8,22 @@ def get_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+# database/connection.py (Updated)
 def init_database():
     conn = get_connection()
+    #  Employee Table [cite: 585]
     conn.execute("""
         CREATE TABLE IF NOT EXISTS employee (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT,
-            address TEXT,
-            department TEXT,
-            salary_status TEXT,
-            updated_at TEXT    
+            name TEXT, email TEXT, address TEXT, 
+            department TEXT, salary_status TEXT, updated_at TEXT
+        );
+    """)
+    # Projects Table
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS projects (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT, client TEXT, status TEXT
         );
     """)
     conn.commit()
