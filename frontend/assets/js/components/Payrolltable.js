@@ -1,12 +1,11 @@
 import { $ } from "../utils/dom.js";
-import { editpayroll, deletepayrollAction } from "../controllers/PayrollController.js";
+import { editPayroll, deletePayRoll } from "../controllers/PayrollController.js";
 
 /**
  * Renders the list of payroll records into the HTML table
  * @param {Array} payrolls - Array of payroll objects
  */
 export function renderPayrolltable(payrolls) {
-  // Get references to the specific payroll table body and empty state message
   const body = $("PayrollTableBody");
   const nopayroll = $("noPayroll");
 
@@ -14,7 +13,7 @@ export function renderPayrolltable(payrolls) {
   body.innerHTML = "";
 
   // Check if the data array is empty
-  if (payrolls.length === 0) {
+  if (!payrolls || payrolls.length === 0) {
     // Show 'no records' message if empty
     if (nopayroll) nopayroll.style.display = "block";
     return;
@@ -43,11 +42,9 @@ export function renderPayrolltable(payrolls) {
       </td>
     `;
 
-    // Attach logic for Edit button
-    row.querySelector("[data-edit]").onclick = () => editpayroll(record.id);
-    
-    // Attach logic for Delete button
-    row.querySelector("[data-delete]").onclick = () => deletepayrollAction(record.id);
+    // FIXED: Correct function names
+    row.querySelector("[data-edit]").onclick = () => editPayroll(record.id);
+    row.querySelector("[data-delete]").onclick = () => deletePayRoll(record.id);
 
     // Append the row to the payroll table body
     body.appendChild(row);

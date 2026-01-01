@@ -1,7 +1,8 @@
 // Global app state
 let state = {
   editingId: null,   // which employee is being edited
-  employee: []       // list of all employees
+  employee: [],
+  payroll: []
 };
 
 // Update part of the state

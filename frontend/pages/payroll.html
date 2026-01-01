@@ -1,6 +1,12 @@
 <div class="max-w-4xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6">Payroll Management</h1>
     
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="text-center py-8" style="display: none;">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <p class="mt-2 text-gray-600">Loading...</p>
+    </div>
+
     <div class="bg-white shadow rounded p-6 mb-8">
         <h2 class="text-xl font-bold mb-4">Add New Payroll Record</h2>
         <form id="PayrollForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -20,15 +26,18 @@
                     <option value="Processing">Processing</option>
                 </select>
             </div>
-            <div class="flex items-end">
-                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+            <div class="flex items-end gap-2">
+                <button type="submit" id="submitBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
                     Add Payroll
+                </button>
+                <button type="button" id="cancelBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition" style="display: none;">
+                    Cancel
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white shadow rounded overflow-hidden">
+    <div class="bg-white shadow rounded overflow-hidden" id="PayRollTableContainer">
         <table class="min-w-full leading-normal">
             <thead>
                 <tr class="bg-gray-100 border-b">
@@ -39,11 +48,10 @@
                 </tr>
             </thead>
             <tbody id="PayrollTableBody">
-                </tbody>
+            </tbody>
         </table>
         <div id="noPayroll" class="hidden p-8 text-center text-gray-500">
             No payroll records found.
         </div>
     </div>
-
-    
+</div>

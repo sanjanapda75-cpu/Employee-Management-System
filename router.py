@@ -79,21 +79,27 @@ class employeeRouter(BaseHTTPRequestHandler):
         if handle_ui_routes(self, path):
             return
 
-        # 2. Employee API
-        if path == "/api/employee":
-            return get_all_employee(self)
-
-        if path.startswith("/api/employee/"):
-            employee_id = int(path.split("/")[-1])
-            return get_employee(self, employee_id)
-        
-        # 3. Payroll API
+        # 2. Payroll API (check BEFORE employee to avoid conflicts)
         if path == "/api/payroll":
             return get_all_payroll(self)
 
         if path.startswith("/api/payroll/"):
-            payroll_id = int(path.split("/")[-1])
-            return get_payroll(self, payroll_id)
+            try:
+                payroll_id = int(path.split("/")[-1])
+                return get_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
+
+        # 3. Employee API
+        if path == "/api/employee":
+            return get_all_employee(self)
+
+        if path.startswith("/api/employee/"):
+            try:
+                employee_id = int(path.split("/")[-1])
+                return get_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
 
         return send_404(self)
 
@@ -101,13 +107,15 @@ class employeeRouter(BaseHTTPRequestHandler):
     # CREATE (POST)
     # ---------------------------
     def do_POST(self):
-        # Employee
-        if self.path == "/api/employee":
-            return create_employee(self)
+        path = urlparse(self.path).path
         
-        # Payroll
-        if self.path == "/api/payroll":
+        # Payroll (check first to avoid conflicts)
+        if path == "/api/payroll":
             return create_payroll(self)
+        
+        # Employee
+        if path == "/api/employee":
+            return create_employee(self)
             
         return send_404(self)
 
@@ -115,15 +123,23 @@ class employeeRouter(BaseHTTPRequestHandler):
     # UPDATE (PUT)
     # ---------------------------
     def do_PUT(self):
-        # Employee
-        if self.path.startswith("/api/employee/"):
-            employee_id = int(self.path.split("/")[-1])
-            return update_employee(self, employee_id)
+        path = urlparse(self.path).path
         
-        # Payroll
-        if self.path.startswith("/api/payroll/"):
-            payroll_id = int(self.path.split("/")[-1])
-            return update_payroll(self, payroll_id)
+        # Payroll (check first)
+        if path.startswith("/api/payroll/"):
+            try:
+                payroll_id = int(path.split("/")[-1])
+                return update_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
+        
+        # Employee
+        if path.startswith("/api/employee/"):
+            try:
+                employee_id = int(path.split("/")[-1])
+                return update_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
             
         return send_404(self)
 
@@ -131,15 +147,23 @@ class employeeRouter(BaseHTTPRequestHandler):
     # DELETE (DELETE)
     # ---------------------------
     def do_DELETE(self):
-        # Employee
-        if self.path.startswith("/api/employee/"):
-            employee_id = int(self.path.split("/")[-1])
-            return delete_employee(self, employee_id)
+        path = urlparse(self.path).path
         
-        # Payroll
-        if self.path.startswith("/api/payroll/"):
-            payroll_id = int(self.path.split("/")[-1])
-            return delete_payroll(self, payroll_id)
+        # Payroll (check first)
+        if path.startswith("/api/payroll/"):
+            try:
+                payroll_id = int(path.split("/")[-1])
+                return delete_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
+        
+        # Employee
+        if path.startswith("/api/employee/"):
+            try:
+                employee_id = int(path.split("/")[-1])
+                return delete_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
             
         return send_404(self)
 

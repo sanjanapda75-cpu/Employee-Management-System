@@ -1,5 +1,6 @@
 // frontend/assets/js/router/viewrouter.js
 import { initEmployeecontroller } from "../controllers/Employeecontroller.js";
+import { initPayrollController } from "../controllers/PayrollController.js";
 
 async function loadView(path) {
   const html = await fetch(path).then(res => res.text());
@@ -13,13 +14,13 @@ export async function router() {
     await loadView("/frontend/pages/home.html");
   } else if (path === "/employee") {
     await loadView("/frontend/pages/employee.html");
-    initEmployeecontroller(); // Loads data and form logic 
+    initEmployeecontroller();
   } else if (path === "/all-employees") {
     await loadView("/frontend/pages/all-employees.html");
-    // This now triggers loademployees() and renders the table 
     initEmployeecontroller(); 
   } else if (path === "/payroll") {
     await loadView("/frontend/pages/payroll.html");
+    initPayrollController(); // FIXED: Now calling payroll controller
   } else if (path === "/invoice") {
     await loadView("/frontend/pages/invoice.html");
   } else if (path === "/projects") {

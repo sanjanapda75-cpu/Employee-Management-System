@@ -1,28 +1,35 @@
-import { $, createElement } from "../utils/dom.js";
+import { $ } from "../utils/dom.js";
 
 // Resets the input form to its default state for creating a new payroll record
 export function resetForm() {
-  // Use the native .reset() method on the HTML form element for Payroll
-  $("PayrollForm").reset();
+  const form = $("PayrollForm");
+  if (form) {
+    form.reset();
+  }
 
-  // Change the submit button text back to "Add Payroll"
-  $("submitBtn").textContent = "Add Payroll";
+  const submitBtn = $("submitBtn");
+  if (submitBtn) {
+    submitBtn.textContent = "Add Payroll";
+  }
 
-  // Hide the "Cancel" button, as we are no longer in 'edit' mode
-  $("cancelBtn").style.display = "none";
+  const cancelBtn = $("cancelBtn");
+  if (cancelBtn) {
+    cancelBtn.style.display = "none";
+  }
 }
 
 // Populates the input form fields with data from a selected payroll object (for editing)
 export function fillForm(payroll) {
-  // Fill each input field with the corresponding property from the payroll data
-  // Using IDs that match your payroll.html structure
-  $("employee_id_input").value = payroll.employee_id;
-  $("employee_name_input").value = payroll.name;
-  $("salary_status_select").value = payroll.salary_status;
+  const employeeIdInput = $("employee_id_input");
+  const employeeNameInput = $("employee_name_input");
+  const salaryStatusSelect = $("salary_status_select");
+  const submitBtn = $("submitBtn");
+  const cancelBtn = $("cancelBtn");
 
-  // Change the submit button text to "Update Payroll"
-  $("submitBtn").textContent = "Update Payroll";
+  if (employeeIdInput) employeeIdInput.value = payroll.employee_id || "";
+  if (employeeNameInput) employeeNameInput.value = payroll.name || "";
+  if (salaryStatusSelect) salaryStatusSelect.value = payroll.salary_status || "Pending";
 
-  // Show the "Cancel" button, allowing the user to exit 'edit' mode
-  $("cancelBtn").style.display = "inline-block";
+  if (submitBtn) submitBtn.textContent = "Update Payroll";
+  if (cancelBtn) cancelBtn.style.display = "inline-block";
 }
