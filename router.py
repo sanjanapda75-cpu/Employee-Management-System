@@ -2,7 +2,10 @@ from datetime import datetime
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse
 from core.static import serve_static
+from core.responses import send_404
+from core.middleware import add_cors_headers
 
+# Employee Controllers
 from controller.employee import (
     get_all_employee,
     get_employee,
@@ -11,15 +14,18 @@ from controller.employee import (
     delete_employee,
 )
 
-from core.static import serve_static
-from core.responses import send_404
-from core.middleware import add_cors_headers
-
+# Payroll Controllers
+from controller.payroll import (
+    get_all_payroll,
+    get_payroll,
+    create_payroll,
+    update_payroll,
+    delete_payroll,
+)
 
 # -------------------------------
 # UI ROUTER (SPA shell + static)
 # -------------------------------
-# In router.py, update FRONTEND_ROUTES
 FRONTEND_ROUTES = {
     "/",
     "/home",
@@ -30,9 +36,6 @@ FRONTEND_ROUTES = {
     "/projects",   
     "/events"     
 }
-
-
-
 
 def handle_ui_routes(handler, path):
     if path in FRONTEND_ROUTES:
@@ -56,20 +59,15 @@ def handle_ui_routes(handler, path):
 
     return False
 
-
-
-
-# # -------------------------------
-# # MAIN ROUTER CLASS
-# # -------------------------------
-
+# -------------------------------
+# MAIN ROUTER CLASS
+# -------------------------------
 class employeeRouter(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200)
         add_cors_headers(self)
         self.end_headers()
-
 
     # ---------------------------
     # READ (GET)
@@ -81,47 +79,69 @@ class employeeRouter(BaseHTTPRequestHandler):
         if handle_ui_routes(self, path):
             return
 
-
-
-        # 2. API READ routes
+        # 2. Employee API
         if path == "/api/employee":
             return get_all_employee(self)
 
         if path.startswith("/api/employee/"):
             employee_id = int(path.split("/")[-1])
             return get_employee(self, employee_id)
+        
+        # 3. Payroll API
+        if path == "/api/payroll":
+            return get_all_payroll(self)
+
+        if path.startswith("/api/payroll/"):
+            payroll_id = int(path.split("/")[-1])
+            return get_payroll(self, payroll_id)
 
         return send_404(self)
-
 
     # ---------------------------
     # CREATE (POST)
     # ---------------------------
     def do_POST(self):
+        # Employee
         if self.path == "/api/employee":
             return create_employee(self)
+        
+        # Payroll
+        if self.path == "/api/payroll":
+            return create_payroll(self)
+            
         return send_404(self)
-
 
     # ---------------------------
     # UPDATE (PUT)
     # ---------------------------
     def do_PUT(self):
+        # Employee
         if self.path.startswith("/api/employee/"):
             employee_id = int(self.path.split("/")[-1])
             return update_employee(self, employee_id)
+        
+        # Payroll
+        if self.path.startswith("/api/payroll/"):
+            payroll_id = int(self.path.split("/")[-1])
+            return update_payroll(self, payroll_id)
+            
         return send_404(self)
-
 
     # ---------------------------
     # DELETE (DELETE)
     # ---------------------------
     def do_DELETE(self):
+        # Employee
         if self.path.startswith("/api/employee/"):
             employee_id = int(self.path.split("/")[-1])
             return delete_employee(self, employee_id)
+        
+        # Payroll
+        if self.path.startswith("/api/payroll/"):
+            payroll_id = int(self.path.split("/")[-1])
+            return delete_payroll(self, payroll_id)
+            
         return send_404(self)
-
 
     def log_message(self, format, *args):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
