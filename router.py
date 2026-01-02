@@ -23,40 +23,38 @@ from controller.payroll import (
     delete_payroll,
 )
 
+# Project Controllers
+from controller.project import (
+    get_all_projects,
+    get_project,
+    create_project,
+    update_project,
+    delete_project
+)
+
 # -------------------------------
 # UI ROUTER (SPA shell + static)
 # -------------------------------
 FRONTEND_ROUTES = {
-    "/",
-    "/home",
-    "/employee",
-    "/all-employees", 
-    "/payroll",       
-    "/invoice",
-    "/projects",   
-    "/events"     
+    "/", "/home", "/employee", "/all-employees", 
+    "/payroll", "/invoice", "/projects", "/events"     
 }
 
 def handle_ui_routes(handler, path):
     if path in FRONTEND_ROUTES:
         serve_static(handler, "frontend/pages/index.html")
         return True
-
     if path.endswith(".html"):
         stripped = path.replace(".html", "")
         if stripped in FRONTEND_ROUTES:
             serve_static(handler, "frontend/pages/index.html")
             return True
-
     if path.startswith("/frontend/"):
         serve_static(handler, path.lstrip("/"))
         return True
-
-    # SPA fallback: any non-API route
     if not path.startswith("/api"):
         serve_static(handler, "frontend/pages/index.html")
         return True
-
     return False
 
 # -------------------------------
@@ -69,78 +67,102 @@ class employeeRouter(BaseHTTPRequestHandler):
         add_cors_headers(self)
         self.end_headers()
 
-    # ---------------------------
-    # READ (GET)
-    # ---------------------------
     def do_GET(self):
         path = urlparse(self.path).path
-
-        # 1. UI routes first (SPA)
         if handle_ui_routes(self, path):
             return
 
-        # 2. Employee API
+        # 1. Exact API matches (Check these FIRST)
         if path == "/api/employee":
             return get_all_employee(self)
-
-        if path.startswith("/api/employee/"):
-            employee_id = int(path.split("/")[-1])
-            return get_employee(self, employee_id)
-        
-        # 3. Payroll API
         if path == "/api/payroll":
             return get_all_payroll(self)
+        if path == "/api/projects":
+            return get_all_projects(self)
 
+        # 2. Dynamic ID routes (Check these LAST)
         if path.startswith("/api/payroll/"):
-            payroll_id = int(path.split("/")[-1])
-            return get_payroll(self, payroll_id)
+            try:
+                payroll_id = int(path.split("/")[-1])
+                return get_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
 
+        if path.startswith("/api/employee/"):
+            try:
+                employee_id = int(path.split("/")[-1])
+                return get_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
+
+        if path.startswith("/api/projects/"):
+            try:
+                project_id = int(path.split("/")[-1])
+                return get_project(self, project_id)
+            except ValueError:
+                return send_404(self)
+        
         return send_404(self)
+    
 
-    # ---------------------------
-    # CREATE (POST)
-    # ---------------------------
     def do_POST(self):
-        # Employee
-        if self.path == "/api/employee":
+        # Ensure exact matching for POST requests
+        # Note: Handling both with and without trailing slash to be safe
+        if self.path == "/api/employee" or self.path == "/api/employee/":
             return create_employee(self)
-        
-        # Payroll
-        if self.path == "/api/payroll":
+        if self.path == "/api/payroll" or self.path == "/api/payroll/":
             return create_payroll(self)
+        if self.path == "/api/projects" or self.path == "/api/projects/":
+            return create_project(self)
             
         return send_404(self)
 
-    # ---------------------------
-    # UPDATE (PUT)
-    # ---------------------------
     def do_PUT(self):
-        # Employee
-        if self.path.startswith("/api/employee/"):
-            employee_id = int(self.path.split("/")[-1])
-            return update_employee(self, employee_id)
-        
-        # Payroll
         if self.path.startswith("/api/payroll/"):
-            payroll_id = int(self.path.split("/")[-1])
-            return update_payroll(self, payroll_id)
-            
+            try:
+                payroll_id = int(self.path.split("/")[-1])
+                return update_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
+
+        if self.path.startswith("/api/employee/"):
+            try:
+                employee_id = int(self.path.split("/")[-1])
+                return update_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
+
+        if self.path.startswith("/api/projects/"):
+            try:
+                project_id = int(self.path.split("/")[-1])
+                return update_project(self, project_id)
+            except ValueError:
+                return send_404(self)
+
         return send_404(self)
 
-    # ---------------------------
-    # DELETE (DELETE)
-    # ---------------------------
     def do_DELETE(self):
-        # Employee
-        if self.path.startswith("/api/employee/"):
-            employee_id = int(self.path.split("/")[-1])
-            return delete_employee(self, employee_id)
-        
-        # Payroll
         if self.path.startswith("/api/payroll/"):
-            payroll_id = int(self.path.split("/")[-1])
-            return delete_payroll(self, payroll_id)
-            
+            try:
+                payroll_id = int(self.path.split("/")[-1])
+                return delete_payroll(self, payroll_id)
+            except ValueError:
+                return send_404(self)
+
+        if self.path.startswith("/api/employee/"):
+            try:
+                employee_id = int(self.path.split("/")[-1])
+                return delete_employee(self, employee_id)
+            except ValueError:
+                return send_404(self)
+
+        if self.path.startswith("/api/projects/"):
+            try:
+                project_id = int(self.path.split("/")[-1])
+                return delete_project(self, project_id)
+            except ValueError:
+                return send_404(self)
+
         return send_404(self)
 
     def log_message(self, format, *args):

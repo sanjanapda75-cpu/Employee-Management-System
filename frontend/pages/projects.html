@@ -1,31 +1,65 @@
 <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Active Projects</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white p-4 rounded shadow border-l-4 border-blue-500">
-            <h3 class="font-bold">Website Redesign</h3>
-            <p class="text-sm text-gray-600">Client: TechCorp</p>
-            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">In Progress</span>
-        </div>
-        <div class="bg-white p-4 rounded shadow border-l-4 border-gray-500">
-            <h3 class="font-bold">Mobile App API</h3>
-            <p class="text-sm text-gray-600">Client: Internal</p>
-            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Planning</span>
-        </div>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold">Project Management</h1>
+        <a href="/home" data-link class="text-sm text-blue-600 underline">Back to Home</a>
     </div>
-</div><div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Internal Projects</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="p-5 bg-white rounded shadow-sm border-t-4 border-yellow-400">
-            <h3 class="font-bold text-xl">Cloud Migration</h3>
-            <p class="text-gray-600 my-2">Moving legacy servers to AWS.</p>
-            <div class="w-full bg-gray-200 h-2 rounded-full"><div class="bg-yellow-400 h-2 rounded-full w-2/3"></div></div>
-            <p class="text-xs mt-2 text-right">66% Complete</p>
+
+    <div class="bg-white p-5 rounded shadow mb-8">
+        <h2 class="font-semibold mb-3 text-lg">Add New Project</h2>
+        <form id="ProjectForm" class="space-y-3">
+            <input type="text" id="name" placeholder="Project Name" required 
+                   class="w-full border rounded px-3 py-2">
+            
+            <input type="text" id="client" placeholder="Client Name" required 
+                   class="w-full border rounded px-3 py-2">
+            
+            <select id="status" required class="w-full border rounded px-3 py-2 bg-white">
+                <option value="" disabled selected>Status</option>
+                <option value="Planning">Planning</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+            <textarea id="description" placeholder="Project Description" required 
+                      class="w-full border rounded px-3 py-2" rows="2"></textarea>
+
+            <div class="flex space-x-2">
+                <button type="submit" id="submitBtn" 
+                        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+                    Add Project
+                </button>
+                <button type="button" id="cancelBtn" 
+                        class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="bg-white p-5 rounded shadow">
+        <h2 class="font-semibold mb-4 text-lg">All Projects</h2>
+        
+        <div id="loadingSpinner" class="text-center py-4">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
         </div>
-        <div class="p-5 bg-white rounded shadow-sm border-t-4 border-green-400">
-            <h3 class="font-bold text-xl">Hiring Drive Q1</h3>
-            <p class="text-gray-600 my-2">Recruiting 5 new developers.</p>
-            <div class="w-full bg-gray-200 h-2 rounded-full"><div class="bg-green-400 h-2 rounded-full w-full"></div></div>
-            <p class="text-xs mt-2 text-right">Done</p>
+
+        <div id="ProjectsTableContainer" class="hidden overflow-x-auto">
+            <table class="min-w-full text-left border">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="px-3 py-2">ID</th>
+                        <th class="px-3 py-2">Project Name</th>
+                        <th class="px-3 py-2">Client</th>
+                        <th class="px-3 py-2">Status</th>
+                        <th class="px-3 py-2">Description</th>
+                        <th class="px-3 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ProjectTableBody"></tbody>
+            </table>
+            <p id="noProjects" class="text-center text-gray-500 mt-3 hidden">
+                No projects found. Add one using the form above.
+            </p>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
-// frontend/assets/js/router/viewrouter.js
 import { initEmployeecontroller } from "../controllers/Employeecontroller.js";
+import { initPayrollController } from "../controllers/PayrollController.js";
+import { initProjectController } from "../controllers/ProjectController.js"; 
 
 async function loadView(path) {
   const html = await fetch(path).then(res => res.text());
@@ -13,17 +14,18 @@ export async function router() {
     await loadView("/frontend/pages/home.html");
   } else if (path === "/employee") {
     await loadView("/frontend/pages/employee.html");
-    initEmployeecontroller(); // Loads data and form logic 
+    initEmployeecontroller();
   } else if (path === "/all-employees") {
     await loadView("/frontend/pages/all-employees.html");
-    // This now triggers loademployees() and renders the table 
-    initEmployeecontroller(); 
+    initEmployeecontroller();
   } else if (path === "/payroll") {
     await loadView("/frontend/pages/payroll.html");
+    initPayrollController();
   } else if (path === "/invoice") {
     await loadView("/frontend/pages/invoice.html");
   } else if (path === "/projects") {
     await loadView("/frontend/pages/projects.html");
+    initProjectController(); 
   } else if (path === "/events") {
     await loadView("/frontend/pages/events.html");
   }
@@ -37,5 +39,6 @@ export function initRouterEvents() {
       router();
     }
   });
+
   window.addEventListener("popstate", router);
 }

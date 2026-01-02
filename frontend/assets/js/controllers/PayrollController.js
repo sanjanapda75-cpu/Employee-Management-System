@@ -1,6 +1,8 @@
 import { apiGetAllPayroll, apiCreatePayroll, apiDeletePayroll } from "../services/Payrollservice.js";
+import { renderPayrolltable } from "../components/Payrolltable.js";
 import { $ } from "../utils/dom.js";
 
+// Initialize the controller and load data [cite: 782, 1034]
 export async function initPayrollController() {
     loadPayroll();
 
@@ -17,34 +19,28 @@ export async function initPayrollController() {
             const res = await apiCreatePayroll(data);
             if (res.ok) {
                 form.reset();
-                loadPayroll();
+                await loadPayroll();
             }
         };
     }
 }
 
-async function loadPayroll() {
+// Fetch data and trigger table rendering [cite: 787, 912, 972]
+export async function loadPayroll() {
     const data = await apiGetAllPayroll();
-    const body = $("PayrollTableBody");
-    body.innerHTML = "";
+    renderPayrolltable(data);
+}
 
-    data.forEach(item => {
-        const row = document.createElement("tr");
-        row.className = "border-b";
-        row.innerHTML = `
-            <td class="px-3 py-2">${item.employee_id}</td>
-            <td class="px-3 py-2">${item.name}</td>
-            <td class="px-3 py-2">${item.salary_status}</td>
-            <td class="px-3 py-2">
-                <button class="bg-red-500 text-white px-3 py-1 rounded" id="del-${item.id}">Delete</button>
-            </td>
-        `;
-        body.appendChild(row);
-        $(`del-${item.id}`).onclick = async () => {
-            if (confirm("Delete this record?")) {
-                await apiDeletePayroll(item.id);
-                loadPayroll();
-            }
-        };
-    });
+// Exported for Payrolltable.js [cite: 506, 1085]
+export async function deletepayrollAction(id) {
+    if (confirm("Delete this record?")) {
+        const res = await apiDeletePayroll(id);
+        if (res.ok) await loadPayroll();
+    }
+}
+
+// Exported for Payrolltable.js [cite: 506, 1015]
+export function editpayroll(id) {
+    console.log("Edit payroll for ID:", id);
+    // Future implementation: fetch data and fillForm(payroll) [cite: 1016, 1048]
 }

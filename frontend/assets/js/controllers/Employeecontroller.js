@@ -11,7 +11,7 @@ import { renderEmployeetable } from "../components/Employeetable.js";
 import { resetForm, fillForm } from "../components/Employeeform.js";
 
 import { setState, getState } from "../state/store.js";
-import { $, createElement } from "../utils/dom.js";
+import { $ } from "../utils/dom.js";
 
 // Setup event listeners and load initial data
 export function initEmployeecontroller() {

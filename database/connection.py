@@ -19,6 +19,15 @@ def init_database():
             department TEXT, salary_status TEXT, updated_at TEXT
         );
     """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS payroll (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            employee_id TEXT NOT NULL,
+            name TEXT NOT NULL,
+            salary_status TEXT NOT NULL
+        )
+    """)
+    
     # Projects Table
     conn.execute("""
         CREATE TABLE IF NOT EXISTS projects (
