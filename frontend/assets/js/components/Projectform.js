@@ -2,7 +2,8 @@ import { $ } from "../utils/dom.js";
 
 // Resets the form to "Create" mode
 export function resetForm() {
-    $("ProjectForm").reset();
+    const form = $("ProjectForm");
+    if (form) form.reset();
     
     const submitBtn = $("submitBtn");
     const cancelBtn = $("cancelBtn");
@@ -13,10 +14,15 @@ export function resetForm() {
 
 // Fills the form with data for "Edit" mode
 export function fillForm(project) {
-    $("name").value = project.name;
-    $("client").value = project.client;
-    $("status").value = project.status;
-    $("description").value = project.description;
+    const nameField = $("name");
+    const clientField = $("client");
+    const statusField = $("status");
+    const descriptionField = $("description");
+    
+    if (nameField) nameField.value = project.name || "";
+    if (clientField) clientField.value = project.client || "";
+    if (statusField) statusField.value = project.status || "";
+    if (descriptionField) descriptionField.value = project.description || "";
     
     const submitBtn = $("submitBtn");
     const cancelBtn = $("cancelBtn");

@@ -104,13 +104,9 @@ class employeeRouter(BaseHTTPRequestHandler):
         
         return send_404(self)
     
-
     def do_POST(self):
-        # We need to strip params just in case, though usually POST path is clean
         path = urlparse(self.path).path
 
-        # Ensure exact matching for POST requests
-        # Note: Handling both with and without trailing slash to be safe
         if path == "/api/employee" or path == "/api/employee/":
             return create_employee(self)
         if path == "/api/payroll" or path == "/api/payroll/":

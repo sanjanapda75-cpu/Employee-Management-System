@@ -9,11 +9,15 @@ from services.project_service import (
 )
 
 def get_all_projects(handler):
-    return send_json(handler, 200, service_get_all_projects())
+    projects = service_get_all_projects()
+    return send_json(handler, 200, projects)
 
 def get_project(handler, project_id):
     project = service_get_one_project(project_id)
-    return send_json(handler, 200, project) if project else send_404(handler)
+    if project:
+        return send_json(handler, 200, project)
+    else:
+        return send_404(handler)
 
 def create_project(handler):
     data = parse_json_body(handler)
@@ -23,8 +27,14 @@ def create_project(handler):
 def update_project(handler, project_id):
     data = parse_json_body(handler)
     updated = service_update_project(project_id, data)
-    return send_json(handler, 200, updated) if updated else send_404(handler)
+    if updated:
+        return send_json(handler, 200, updated)
+    else:
+        return send_404(handler)
 
 def delete_project(handler, project_id):
     deleted = service_delete_project(project_id)
-    return send_json(handler, 200, {"deleted": True}) if deleted else send_404(handler)
+    if deleted:
+        return send_json(handler, 200, {"deleted": True, "project": deleted})
+    else:
+        return send_404(handler)

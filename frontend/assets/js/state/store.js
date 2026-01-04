@@ -2,7 +2,8 @@
 let state = {
   editingId: null,   // which employee is being edited
   employee: [],
-  payroll: []
+  payroll: [],
+  project: [],
 };
 
 export function setState(newState) {

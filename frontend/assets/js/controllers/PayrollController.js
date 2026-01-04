@@ -46,7 +46,7 @@ async function loadPayroll() {
     if (table) table.style.display = "none";
 
     const payroll = await apiGetAll();
-    renderPayrolltable(payroll);
+    renderPayrolltable(payroll, editPayroll, deletePayRoll);
 
     if (spinner) spinner.style.display = "none";
     if (table) table.style.display = "block";

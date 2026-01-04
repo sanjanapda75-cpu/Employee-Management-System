@@ -1,63 +1,92 @@
 <div class="max-w-4xl mx-auto p-6">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-3xl font-bold">Project Management</h1>
-        <a href="/home" data-link class="text-sm text-blue-600 underline">Back to Home</a>
+        <a href="/home" data-link class="text-sm text-blue-600 underline hover:text-blue-800">
+            ← Back to Home
+        </a>
     </div>
 
+    <!-- Add/Edit Form -->
     <div class="bg-white p-5 rounded shadow mb-8">
         <h2 class="font-semibold mb-3 text-lg">Add New Project</h2>
         <form id="ProjectForm" class="space-y-3">
-            <input type="text" id="name" placeholder="Project Name" required 
-                   class="w-full border rounded px-3 py-2">
+            <input 
+                type="text" 
+                id="name" 
+                placeholder="Project Name" 
+                required 
+                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
             
-            <input type="text" id="client" placeholder="Client Name" required 
-                   class="w-full border rounded px-3 py-2">
+            <input 
+                type="text" 
+                id="client" 
+                placeholder="Client Name" 
+                required 
+                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
             
-            <select id="status" required class="w-full border rounded px-3 py-2 bg-white">
-                <option value="" disabled selected>Status</option>
+            <select 
+                id="status" 
+                required 
+                class="w-full border rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled selected>Select Status</option>
                 <option value="Planning">Planning</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
             </select>
 
-            <textarea id="description" placeholder="Project Description" required 
-                      class="w-full border rounded px-3 py-2" rows="2"></textarea>
+            <textarea 
+                id="description" 
+                placeholder="Project Description" 
+                required 
+                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                rows="3"></textarea>
 
             <div class="flex space-x-2">
-                <button type="submit" id="submitBtn" 
-                        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+                <button 
+                    type="submit" 
+                    id="submitBtn" 
+                    class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-medium">
                     Add Project
                 </button>
-                <button type="button" id="cancelBtn" 
-                        class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">
+                <button 
+                    type="button" 
+                    id="cancelBtn" 
+                    class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded font-medium" 
+                    style="display: none;">
                     Cancel
                 </button>
             </div>
         </form>
     </div>
 
+    <!-- Projects Table -->
     <div class="bg-white p-5 rounded shadow">
         <h2 class="font-semibold mb-4 text-lg">All Projects</h2>
         
-        <div id="loadingSpinner" class="text-center py-4">
-            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="text-center py-8">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
+            <p class="text-gray-500 mt-2 text-sm">Loading projects...</p>
         </div>
 
-        <div id="ProjectsTableContainer" class="hidden overflow-x-auto">
+        <!-- Table Container -->
+        <div id="ProjectsTableContainer" style="display: none;" class="overflow-x-auto">
             <table class="min-w-full text-left border">
                 <thead class="bg-gray-200">
                     <tr>
-                        <th class="px-3 py-2">ID</th>
-                        <th class="px-3 py-2">Project Name</th>
-                        <th class="px-3 py-2">Client</th>
-                        <th class="px-3 py-2">Status</th>
-                        <th class="px-3 py-2">Description</th>
-                        <th class="px-3 py-2">Actions</th>
+                        <th class="px-3 py-2 font-semibold">ID</th>
+                        <th class="px-3 py-2 font-semibold">Project Name</th>
+                        <th class="px-3 py-2 font-semibold">Client</th>
+                        <th class="px-3 py-2 font-semibold">Status</th>
+                        <th class="px-3 py-2 font-semibold">Description</th>
+                        <th class="px-3 py-2 font-semibold">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="ProjectTableBody"></tbody>
             </table>
-            <p id="noProjects" class="text-center text-gray-500 mt-3 hidden">
+            
+            <!-- No Projects Message -->
+            <p id="noProjects" class="text-center text-gray-500 mt-4 py-4" style="display: none;">
                 No projects found. Add one using the form above.
             </p>
         </div>

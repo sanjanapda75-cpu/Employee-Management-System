@@ -1,7 +1,8 @@
 import { router, initRouterEvents } from "./router/viewrouter.js";
 
-// Initialize app on page load
-window.addEventListener("DOMContentLoaded", () => {
-  router();
-  initRouterEvents();
+// Initialize app
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("✓ App initialized");
+    initRouterEvents();
+    router();
 });
