@@ -106,35 +106,40 @@ class employeeRouter(BaseHTTPRequestHandler):
     
 
     def do_POST(self):
+        # We need to strip params just in case, though usually POST path is clean
+        path = urlparse(self.path).path
+
         # Ensure exact matching for POST requests
         # Note: Handling both with and without trailing slash to be safe
-        if self.path == "/api/employee" or self.path == "/api/employee/":
+        if path == "/api/employee" or path == "/api/employee/":
             return create_employee(self)
-        if self.path == "/api/payroll" or self.path == "/api/payroll/":
+        if path == "/api/payroll" or path == "/api/payroll/":
             return create_payroll(self)
-        if self.path == "/api/projects" or self.path == "/api/projects/":
+        if path == "/api/projects" or path == "/api/projects/":
             return create_project(self)
             
         return send_404(self)
 
     def do_PUT(self):
-        if self.path.startswith("/api/payroll/"):
+        path = urlparse(self.path).path
+
+        if path.startswith("/api/payroll/"):
             try:
-                payroll_id = int(self.path.split("/")[-1])
+                payroll_id = int(path.split("/")[-1])
                 return update_payroll(self, payroll_id)
             except ValueError:
                 return send_404(self)
 
-        if self.path.startswith("/api/employee/"):
+        if path.startswith("/api/employee/"):
             try:
-                employee_id = int(self.path.split("/")[-1])
+                employee_id = int(path.split("/")[-1])
                 return update_employee(self, employee_id)
             except ValueError:
                 return send_404(self)
 
-        if self.path.startswith("/api/projects/"):
+        if path.startswith("/api/projects/"):
             try:
-                project_id = int(self.path.split("/")[-1])
+                project_id = int(path.split("/")[-1])
                 return update_project(self, project_id)
             except ValueError:
                 return send_404(self)
@@ -142,23 +147,25 @@ class employeeRouter(BaseHTTPRequestHandler):
         return send_404(self)
 
     def do_DELETE(self):
-        if self.path.startswith("/api/payroll/"):
+        path = urlparse(self.path).path
+
+        if path.startswith("/api/payroll/"):
             try:
-                payroll_id = int(self.path.split("/")[-1])
+                payroll_id = int(path.split("/")[-1])
                 return delete_payroll(self, payroll_id)
             except ValueError:
                 return send_404(self)
 
-        if self.path.startswith("/api/employee/"):
+        if path.startswith("/api/employee/"):
             try:
-                employee_id = int(self.path.split("/")[-1])
+                employee_id = int(path.split("/")[-1])
                 return delete_employee(self, employee_id)
             except ValueError:
                 return send_404(self)
 
-        if self.path.startswith("/api/projects/"):
+        if path.startswith("/api/projects/"):
             try:
-                project_id = int(self.path.split("/")[-1])
+                project_id = int(path.split("/")[-1])
                 return delete_project(self, project_id)
             except ValueError:
                 return send_404(self)

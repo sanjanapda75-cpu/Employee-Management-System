@@ -1,9 +1,8 @@
 // Global app state
 let state = {
-  editingId: null,   
+  editingId: null,   // which employee is being edited
   employee: [],
-  payroll: [],        // ADDED: For payroll records
-  project: []        
+  payroll: []
 };
 
 export function setState(newState) {

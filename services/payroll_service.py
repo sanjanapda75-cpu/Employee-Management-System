@@ -1,4 +1,4 @@
-from database.queries import (
+from database.payroll_queries import (
     db_get_all_payroll,
     db_get_one_payroll,
     db_create_payroll,

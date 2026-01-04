@@ -1,14 +1,15 @@
 import { $ } from "../utils/dom.js";
-import { editpayroll, deletepayrollAction } from "../controllers/PayrollController.js";
+import { editPayroll, deletePayRoll } from "../controllers/PayrollController.js";
 
 export function renderPayrolltable(payrolls) {
-  // Line 11 is usually around here
   const body = $("PayrollTableBody");
   const nopayroll = $("noPayroll");
 
   body.innerHTML = "";
 
-  if (payrolls.length === 0) {
+  // Check if the data array is empty
+  if (!payrolls || payrolls.length === 0) {
+    // Show 'no records' message if empty
     if (nopayroll) nopayroll.style.display = "block";
     return;
   }
@@ -31,8 +32,9 @@ export function renderPayrolltable(payrolls) {
       </td>
     `;
 
-    row.querySelector("[data-edit]").onclick = () => editpayroll(record.id);
-    row.querySelector("[data-delete]").onclick = () => deletepayrollAction(record.id);
+    // FIXED: Correct function names
+    row.querySelector("[data-edit]").onclick = () => editPayroll(record.id);
+    row.querySelector("[data-delete]").onclick = () => deletePayRoll(record.id);
 
     body.appendChild(row);
   });
