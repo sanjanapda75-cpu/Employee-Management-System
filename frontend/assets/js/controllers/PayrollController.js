@@ -1,10 +1,12 @@
-import { apiGetAll, apiCreate, apiDelete } from "../services/Payrollservice.js";
+import { apiCreate, apiDelete, apiUpdate, apiGetAll, apiGetOne } from "../services/Payrollservice.js";
 import { showAlert } from "../components/Alert.js";
-import { resetForm } from "../components/Payrollform.js";
+import { renderPayrolltable } from "../components/Payrolltable.js";
+import { resetForm, fillForm } from "../components/Payrollform.js";
+import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
 
 // Initialize the controller
-export function initPayrollController() {
+export async function initPayrollController() {
     loadPayroll();
 
     const form = $("PayrollForm");
@@ -12,129 +14,103 @@ export function initPayrollController() {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // We only need Employee ID and Status to create the record
             const data = {
-                employee_id: $("employee_id_input").value.trim(),
+                employee_id: $("employee_id_input").value,
+                name: $("employee_name_input").value,
                 salary_status: $("salary_status_select").value
             };
 
-            await createNewPayRoll(data);
+            const { editingId } = getState();
+
+            editingId
+                ? await updatePayRoll(editingId, data)
+                : await createNewPayRoll(data);
         });
     }
 
     const cancelBtn = $("cancelBtn");
     if (cancelBtn) {
         cancelBtn.addEventListener("click", () => {
+            setState({ editingId: null });
             resetForm();
-            cancelBtn.classList.add("hidden");
         });
     }
 }
 
-// Load data and render the table
-export async function loadPayroll() {
+// Load data with spinner
+async function loadPayroll() {
     const spinner = $("loadingSpinner");
-    const tableContainer = $("PayRollTableContainer");
-    const tableBody = $("PayrollTableBody");
-    const noDataMsg = $("noPayroll");
+    const table = $("PayRollTableContainer");
 
-    if (spinner) spinner.style.display = "flex"; // Centered spinner
-    if (tableContainer) tableContainer.classList.add("hidden");
+    if (spinner) spinner.style.display = "block";
+    if (table) table.style.display = "none";
 
-    try {
-        // Fetches ALL employees with their status (Joined Data)
-        const records = await apiGetAll();
+    const payroll = await apiGetAll();
+    renderPayrolltable(payroll, editPayroll, deletePayRoll);
 
-        if (spinner) spinner.style.display = "none";
-        if (tableContainer) tableContainer.classList.remove("hidden");
-
-        if (!records || records.length === 0) {
-            if (noDataMsg) noDataMsg.classList.remove("hidden");
-            return;
-        }
-
-        if (noDataMsg) noDataMsg.classList.add("hidden");
-        tableBody.innerHTML = "";
-
-        records.forEach(row => {
-            // Logic for Badge Colors
-            let badgeColor = "bg-gray-100 text-gray-500"; // Default (Not Started)
-            if (row.status === "Paid") badgeColor = "bg-green-100 text-green-700";
-            else if (row.status === "Pending") badgeColor = "bg-orange-100 text-orange-700";
-            else if (row.status === "Processing") badgeColor = "bg-blue-100 text-blue-700";
-
-            // Action Button Logic:
-            // If payroll_id exists, show DELETE (to reset status).
-            // If null, show nothing (or you could add a quick 'Add' button).
-            const actionButton = row.payroll_id 
-                ? `<button onclick="window.triggerDeletePayroll(${row.payroll_id})" class="text-red-500 hover:text-red-700 transition-colors" title="Reset Status">
-                     <i class="fa-solid fa-trash"></i>
-                   </button>`
-                : `<span class="text-xs text-gray-300 italic">No Record</span>`;
-
-            const tr = document.createElement("tr");
-            tr.className = "hover:bg-gray-50 border-b border-gray-100 transition-colors";
-            
-            tr.innerHTML = `
-                <td class="px-6 py-4 text-sm text-slate-500">
-                    ${row.payroll_id ? '#' + row.payroll_id : '-'}
-                </td>
-                <td class="px-6 py-4 text-sm font-medium text-slate-900">
-                    ${row.employee_id}
-                </td>
-                <td class="px-6 py-4 text-sm text-slate-600">
-                    ${row.name}
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeColor}">
-                        ${row.status}
-                    </span>
-                </td>
-                <td class="px-6 py-4 text-right">
-                    ${actionButton}
-                </td>
-            `;
-            tableBody.appendChild(tr);
-        });
-
-    } catch (error) {
-        console.error("Error loading payroll:", error);
-        if (spinner) spinner.style.display = "none";
-    }
+    if (spinner) spinner.style.display = "none";
+    if (table) table.style.display = "block";
 }
 
-// Create new payroll record (or update status)
+// Create new payroll record
 export async function createNewPayRoll(data) {
     try {
         const res = await apiCreate(data);
-        if (res && !res.error) {
-            showAlert("Payroll Status Updated!");
+        if (res && res.ok) {
+            showAlert("Payroll added");
             resetForm();
-            loadPayroll(); // Reload to see the new status
-        } else {
-            showAlert("Failed to update status", "error");
+            loadPayroll();
         }
     } catch (error) {
         console.error("Error in creating payroll", error);
     }
 }
 
-// Delete record (Resets status to 'Not Started')
-export async function deletePayRoll(id) {
-    if (!confirm("Are you sure? This will reset the employee's status to 'Not Started'.")) return;
-    
+// Prepare form for editing
+export async function editPayroll(id) {
     try {
-        const res = await apiDelete(id);
-        if (res) {
-            showAlert("Payroll record removed!");
+        const payroll = await apiGetOne(id);
+        if (!payroll) {
+            showAlert("Payroll not found");
+            return;
+        }
+
+        setState({ editingId: id });
+        fillForm(payroll);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+        console.error(`Error in editing payroll ${id}`, error);
+    }
+}
+
+// Update existing record
+export async function updatePayRoll(id, data) {
+    try {
+        const res = await apiUpdate(id, data);
+        if (res && res.ok) {
+            showAlert("Updated!");
+            resetForm();
+            setState({ editingId: null });
             loadPayroll();
         }
+        return res;
+    } catch (error) {
+        console.error("Error in updating payroll", error);
+    }
+}
+
+// Delete record
+export async function deletePayRoll(id) {
+    if (!confirm("Delete this payroll record?")) return;
+    try {
+        const res = await apiDelete(id);
+        if (res && res.ok) {
+            showAlert("Deleted!");
+            loadPayroll();
+        }
+        return res;
     } catch (error) {
         console.error("Error in deleting payroll", error);
     }
 }
-
-// Make delete function globally available for onclick handlers
-window.triggerDeletePayroll = (id) => {
-    deletePayRoll(id);
-};
