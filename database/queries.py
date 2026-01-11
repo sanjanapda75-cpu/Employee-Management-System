@@ -4,7 +4,7 @@ from .connection import get_connection
 # --- EMPLOYEE QUERIES ---
 
 def db_get_all():
-    """Retrieves all employees from the database."""
+    """Retrieves all employees from the database (Standard)."""
     conn = get_connection()
     rows = conn.execute("SELECT * FROM employee ORDER BY id DESC").fetchall()
     conn.close()
@@ -51,3 +51,47 @@ def db_delete(employee_id):
     conn.commit()
     conn.close()
     return employee
+
+# --- JOIN QUERY (Added for Dashboard) ---
+
+def get_all_employees_with_status():
+    """
+    Fetches all employees and joins with the payroll table 
+    to get the real-time salary status from the Finance records.
+    """
+    conn = get_connection()
+    
+    # We use LEFT JOIN so employees without payroll records still show up.
+    # We use COALESCE to show 'Not Processed' if no payroll record exists.
+    query = """
+    SELECT 
+        e.id, 
+        e.name, 
+        e.email, 
+        e.department, 
+        e.address,
+        COALESCE(p.salary_status, 'Not Processed') as status
+    FROM 
+        employee e
+    LEFT JOIN 
+        payroll p ON e.id = p.employee_id
+    ORDER BY 
+        e.id DESC
+    """
+    
+    rows = conn.execute(query).fetchall()
+    conn.close()
+    
+    # Convert rows to a list of dictionaries
+    results = []
+    for row in rows:
+        results.append({
+            "id": row[0],
+            "name": row[1],
+            "email": row[2],
+            "department": row[3],
+            "address": row[4],
+            "status": row[5]
+        })
+        
+    return results

@@ -11,12 +11,12 @@ def get_connection():
 def init_database():
     conn = get_connection()
     
-    # Employee Table
+    # 1. Employee Table
     conn.execute("""
         CREATE TABLE IF NOT EXISTS employee (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT, 
-            email TEXT, 
+            name TEXT NOT NULL, 
+            email TEXT NOT NULL, 
             address TEXT, 
             department TEXT, 
             salary_status TEXT, 
@@ -24,17 +24,20 @@ def init_database():
         );
     """)
     
-    # Payroll Table
+    # 2. Payroll Table (UPDATED)
+    # - Removed 'name' column (We fetch this via JOIN now)
+    # - Changed employee_id to INTEGER for better linking
+    # - Added FOREIGN KEY constraint
     conn.execute("""
         CREATE TABLE IF NOT EXISTS payroll (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            employee_id TEXT NOT NULL,
-            name TEXT NOT NULL,
-            salary_status TEXT NOT NULL
-        )
+            employee_id INTEGER NOT NULL,
+            salary_status TEXT NOT NULL,
+            FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
+        );
     """)
     
-    # Projects Table (FIXED - changed 'title' to 'name', added 'description')
+    # 3. Projects Table
     conn.execute("""
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
