@@ -1,66 +1,147 @@
-<div class="max-w-3xl mx-auto p-6">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 font-sans h-screen w-full overflow-hidden">
 
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-3xl font-bold">Employee Management System</h1>
-    <a href="/home" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
-  </div>
+    <nav class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-30 relative shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2 rounded-lg">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">EMS Pro</h1>
+        </div>
+        <a href="/home" data-link class="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+    </nav>
 
-  <!-- Add / Edit employee Form -->
-  <div class="bg-white p-5 rounded shadow mb-8">
-    <h2 class="font-semibold mb-3 text-lg">Add New employee</h2>
-    <form id="EmployeeForm" class="space-y-3">
-      <input type="text" id="name" placeholder="Name" required class="w-full border rounded px-3 py-2">
-      <input type="email" id="email" placeholder="Email" required class="w-full border rounded px-3 py-2">
-      <input type="text" id="address" placeholder="address" required class="w-full border rounded px-3 py-2">
-      <input type="text" id="department" placeholder="department" required class="w-full border rounded px-3 py-2">
-      <input type="text" id="salary_status" placeholder="salary_status" required class="w-full border rounded px-3 py-2">
+    <div class="flex flex-col lg:flex-row h-[calc(100vh-64px)] w-full">
 
-      <div class="flex space-x-2">
-        <button type="submit" id="submitBtn"
-          class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
-          Add employee
-        </button>
+        <aside class="w-full lg:w-[40%] bg-white flex flex-col border-r border-gray-200 h-full shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20">
+            
+            <div class="px-8 py-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-blue-600"><i class="fa-solid fa-user-plus"></i></span>
+                    Add Employee
+                </h2>
+                <p class="text-slate-500 text-sm mt-1">Create a new record in the system.</p>
+            </div>
 
-        <button type="button" id="cancelBtn"
-          class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
+            <div class="flex-1 overflow-y-auto p-8">
+                <form id="EmployeeForm" class="space-y-5 max-w-lg mx-auto lg:mx-0">
+                    
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold uppercase text-slate-500 tracking-wider ml-1">Full Name</label>
+                        <input type="text" id="name" placeholder="e.g. John Doe" required 
+                            class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 block p-3.5 transition-all outline-none">
+                    </div>
 
-  <!-- employees Table -->
-  <div class="bg-white p-5 rounded shadow">
-    <h2 class="font-semibold mb-4 text-lg">All employees</h2>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold uppercase text-slate-500 tracking-wider ml-1">Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" required 
+                            class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 block p-3.5 transition-all outline-none">
+                    </div>
 
-    <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="text-center py-4">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold uppercase text-slate-500 tracking-wider ml-1">Department</label>
+                            <input type="text" id="department" placeholder="e.g. Engineering" required 
+                                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 block p-3.5 transition-all outline-none">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold uppercase text-slate-500 tracking-wider ml-1">Salary Status</label>
+                            <input type="text" id="salary_status" placeholder="Paid / Pending" required 
+                                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 block p-3.5 transition-all outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold uppercase text-slate-500 tracking-wider ml-1">Physical Address</label>
+                        <input type="text" id="address" placeholder="Enter full address" required 
+                            class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 block p-3.5 transition-all outline-none">
+                    </div>
+
+                    <div class="pt-4 flex space-x-3">
+                        <button type="submit" id="submitBtn"
+                            class="flex-1 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-3.5 text-center shadow-lg shadow-blue-200 transition-all hover:-translate-y-0.5">
+                            <i class="fa-solid fa-plus mr-2"></i> Add Employee
+                        </button>
+
+                        <button type="button" id="cancelBtn"
+                            class="hidden flex-1 text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 focus:ring-4 focus:outline-none focus:ring-slate-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+        <main class="w-full lg:w-[60%] bg-slate-50 flex flex-col h-full relative overflow-hidden">
+            
+            <div class="px-8 py-6 border-b border-gray-200 bg-white/50 backdrop-blur-sm flex justify-between items-center sticky top-0 z-10">
+                <h2 class="text-lg font-bold text-slate-800">All Employees</h2>
+                <div class="flex gap-2 text-sm text-slate-500">
+                    <span class="bg-white border border-gray-200 px-3 py-1 rounded-md shadow-sm">
+                        Live Data
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-auto p-0 scroll-smooth">
+                
+                <div id="loadingSpinner" class="flex flex-col justify-center items-center h-64 text-center">
+                    <div class="animate-spin rounded-full h-10 w-10 border-4 border-slate-200 border-t-blue-600 mb-4"></div>
+                    <p class="text-slate-500 font-medium">Loading records...</p>
+                </div>
+
+                <div id="EmployeesTableContainer" class="hidden min-w-full inline-block align-middle">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100 sticky top-0 z-10 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Address</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider hidden xl:table-cell">Dept</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider hidden xl:table-cell">Status</th>
+                                <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="EmployeeTableBody" class="bg-white divide-y divide-gray-100">
+                            </tbody>
+                    </table>
+
+                    <div id="noemployee" class="hidden flex flex-col items-center justify-center py-20 text-center">
+                        <div class="bg-slate-100 p-4 rounded-full mb-3">
+                            <i class="fa-regular fa-folder-open text-2xl text-slate-400"></i>
+                        </div>
+                        <h3 class="text-slate-900 font-medium">No employees found</h3>
+                        <p class="text-slate-500 text-sm mt-1">Use the form on the left to add one.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
     </div>
 
-    <!-- employees Table Container -->
-    <div id="EmployeesTableContainer" class="hidden overflow-x-auto">
-      <table class="min-w-full text-left border">
-        <thead class="bg-gray-200">
-          <tr>
-            <th class="px-3 py-2">ID</th>
-            <th class="px-3 py-2">Name</th>
-            <th class="px-3 py-2">Email</th>
-            <th class="px-3 py-2">address</th>
-            <th class="px-3 py-2">department</th>
-            <th class="px-3 py-2">salary_status</th>
-            <th class="px-3 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="EmployeeTableBody"></tbody>
-      </table>
+    <div id="alertContainer" class="fixed top-20 right-6 space-y-2 z-50 w-80 pointer-events-none"></div>
 
-      <p id="noemployee" class="text-center text-gray-500 mt-3 hidden">
-        No employees found. Add one using the form above.
-      </p>
-    </div>
-  </div>
-
-  <!-- Alert container -->
-  <div id="alertContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
-</div>
+</body>
+</html>
