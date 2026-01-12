@@ -1,8 +1,149 @@
-body {
-  scroll-behavior: smooth;
+/* =========================================
+   1. Global Settings & Typography
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+html {
+    scroll-behavior: smooth;
 }
 
-/* Optional: animate alert fade */
+body {
+    font-family: 'Inter', sans-serif; /* Professional, clean font */
+    background-color: #f8fafc; /* Slate-50: A soft, professional grey */
+    color: #1e293b; /* Slate-800: Softer than pure black */
+    
+    /* Font Smoothing for crisp text on high-res screens */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Prevent horizontal scroll issues during animations */
+    overflow-x: hidden; 
+}
+
+/* =========================================
+   2. Modern Custom Scrollbar
+   ========================================= */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1; /* Slate-300 */
+    border-radius: 20px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8; /* Slate-400 */
+}
+
+/* =========================================
+   3. Interactive Animations (Keyframes)
+   ========================================= */
+
+/* Fade In Down - Best for Page Titles */
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Up - Best for Cards and Grids */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Subtle Pulse - Best for Alerts or Status Indicators */
+@keyframes subtlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* Slide In Right - Best for Table Rows */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =========================================
+   4. Utility Animation Classes
+   ========================================= */
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.1s; /* Slight delay for better flow */
+}
+
+/* Staggered animation for table rows (Interactive Feel) */
+tbody tr {
+    animation: slideInRight 0.4s ease-out forwards;
+    opacity: 0; /* Start hidden */
+}
+
+/* Delays for the first 10 items to create a cascade effect */
+tbody tr:nth-child(1) { animation-delay: 0.05s; }
+tbody tr:nth-child(2) { animation-delay: 0.1s; }
+tbody tr:nth-child(3) { animation-delay: 0.15s; }
+tbody tr:nth-child(4) { animation-delay: 0.2s; }
+tbody tr:nth-child(5) { animation-delay: 0.25s; }
+
+/* =========================================
+   5. Component Enhancements
+   ========================================= */
+
+/* Alert Container Animation */
 #alertContainer > div {
-  transition: all 0.3s ease;
+    animation: subtlePulse 0.4s ease-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Smooth transitions for all buttons and inputs */
+button, input, select, textarea, a {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Focus states for accessibility and professional feel */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue ring */
+    border-color: #3b82f6;
+}
+
+/* Table Row Hover Effect */
+table tbody tr:hover {
+    background-color: #f1f5f9; /* Slate-100 */
+    transform: scale(1.005); /* Micro-interaction zoom */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+    position: relative;
 }

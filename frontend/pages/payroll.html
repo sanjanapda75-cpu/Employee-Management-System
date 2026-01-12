@@ -1,99 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payroll Management</title>
-</head>
-<body>
-    <!-- Alert Container - ADD THIS IF MISSING -->
-    <div id="alertContainer" class="fixed top-20 right-4 z-50"></div>
+<div class="flex flex-col bg-gray-50 h-screen w-full overflow-hidden">
 
-    <div class="max-w-4xl mx-auto p-6">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold">Payroll Management</h1>
-            <a href="/home" data-link class="text-sm text-blue-600 underline hover:text-blue-800">
-                ← Back to Home
-            </a>
+    <nav class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-30 relative shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="bg-green-600 text-white p-2 rounded-lg">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">Payroll Manager</h1>
         </div>
+        <a href="/home" data-link class="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+    </nav>
 
-        <!-- Add/Edit Form -->
-        <div class="bg-white p-5 rounded shadow mb-8">
-            <h2 class="font-semibold mb-3 text-lg">Add Payroll Record</h2>
-            <form id="PayrollForm" class="space-y-3">
-                <input 
-                    type="text" 
-                    id="employee_id_input" 
-                    placeholder="Employee ID" 
-                    required 
-                    class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                
-                <input 
-                    type="text" 
-                    id="employee_name_input" 
-                    placeholder="Employee Name" 
-                    required 
-                    class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                
-                <select 
-                    id="salary_status_select" 
-                    required 
-                    class="w-full border rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="" disabled selected>Select Salary Status</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                </select>
+    <div class="flex flex-col lg:flex-row h-[calc(100vh-64px)] w-full">
 
-                <div class="flex space-x-2">
-                    <button 
-                        type="submit" 
-                        id="submitBtn" 
-                        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-medium">
-                        Add Payroll
-                    </button>
-                    <button 
-                        type="button" 
-                        id="cancelBtn" 
-                        class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded font-medium" 
-                        style="display: none;">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Payroll Table -->
-        <div class="bg-white p-5 rounded shadow">
-            <h2 class="font-semibold mb-4 text-lg">All Payroll Records</h2>
+        <aside class="w-full lg:w-[40%] bg-white flex flex-col border-r border-gray-200 h-full shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20">
             
-            <!-- Loading Spinner -->
-            <div id="loadingSpinner" class="text-center py-8">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-                <p class="text-gray-500 mt-2 text-sm">Loading payroll...</p>
+            <div class="px-8 py-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-green-600"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+                    Process Payroll
+                </h2>
+                <p class="text-slate-500 text-sm mt-1">Enter salary details for an employee.</p>
             </div>
 
-            <!-- Table Container -->
-            <div id="PayRollTableContainer" style="display: none;" class="overflow-x-auto">
-                <table class="min-w-full text-left border">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="px-3 py-2 font-semibold">ID</th>
-                            <th class="px-3 py-2 font-semibold">Employee ID</th>
-                            <th class="px-3 py-2 font-semibold">Name</th>
-                            <th class="px-3 py-2 font-semibold">Salary Status</th>
-                            <th class="px-3 py-2 font-semibold">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="PayrollTableBody"></tbody>
-                </table>
-                
-                <!-- No Payroll Message -->
-                <p id="noPayroll" class="text-center text-gray-500 mt-4 py-4" style="display: none;">
-                    No payroll records found. Add one using the form above.
-                </p>
+            <div class="flex-1 overflow-y-auto p-8">
+                <form id="PayrollForm" class="space-y-6 max-w-lg mx-auto lg:mx-0">
+                    
+                    <div class="space-y-1">
+                        <label for="employee_id_input" class="text-xs font-bold uppercase text-slate-500 tracking-wider ml-1">Employee ID</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-id-badge"></i></span>
+                            <input 
+                                type="text" 
+                                id="employee_id_input" 
+                                placeholder="e.g. EMP-001" 
+                                required 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-green-500 transition-all outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="employee_name_input" class="text-xs font-bold uppercase text-slate-500 tracking-wider ml-1">Employee Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-user"></i></span>
+                            <input 
+                                type="text" 
+                                id="employee_name_input" 
+                                placeholder="e.g. John Doe" 
+                                required 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-green-500 transition-all outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="salary_status_select" class="text-xs font-bold uppercase text-slate-500 tracking-wider ml-1">Payment Status</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-chart-pie"></i></span>
+                            <select 
+                                id="salary_status_select" 
+                                required 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-green-500 appearance-none transition-all outline-none cursor-pointer">
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Processing">Processing</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex gap-3">
+                        <button 
+                            type="submit" 
+                            id="submitBtn" 
+                            class="flex-1 text-white bg-green-600 hover:bg-green-700 font-bold rounded-xl text-sm px-5 py-3.5 shadow-lg shadow-green-200 transition-all hover:-translate-y-0.5 active:scale-95">
+                            <i class="fa-solid fa-plus mr-2"></i> Add Record
+                        </button>
+
+                        <button 
+                            type="button" 
+                            id="cancelBtn" 
+                            class="hidden flex-1 text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 font-bold rounded-xl text-sm px-5 py-3.5 transition-all">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
+        </aside>
+
+        <main class="w-full lg:w-[60%] bg-slate-50 flex flex-col h-full relative overflow-hidden">
+            
+            <div class="px-8 py-6 border-b border-gray-200 bg-white/50 backdrop-blur-sm flex justify-between items-center sticky top-0 z-10">
+                <h2 class="text-lg font-bold text-slate-800">Payroll History</h2>
+                <span class="bg-white border border-gray-200 px-3 py-1 rounded-md shadow-sm text-xs font-medium text-slate-500">
+                    Live Data
+                </span>
+            </div>
+
+            <div class="flex-1 overflow-auto p-0 scroll-smooth">
+                
+                <div id="loadingSpinner" class="flex flex-col justify-center items-center h-64 text-center">
+                    <div class="animate-spin rounded-full h-10 w-10 border-4 border-slate-200 border-t-green-600 mb-4"></div>
+                    <p class="text-slate-500 font-medium">Loading payroll records...</p>
+                </div>
+
+                <div id="PayRollTableContainer" style="display: none;" class="min-w-full inline-block align-middle">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100 sticky top-0 z-10 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Employee ID</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Salary Status</th>
+                                <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="PayrollTableBody" class="bg-white divide-y divide-gray-100">
+                            </tbody>
+                    </table>
+
+                    <div id="noPayroll" style="display: none;" class="flex flex-col items-center justify-center py-20 text-center">
+                        <div class="bg-slate-100 p-4 rounded-full mb-3">
+                            <i class="fa-solid fa-file-circle-xmark text-2xl text-slate-400"></i>
+                        </div>
+                        <h3 class="text-slate-900 font-medium">No records found</h3>
+                        <p class="text-slate-500 text-sm mt-1">Add a payroll entry to get started.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
     </div>
-</body>
-</html>
+
+    <div id="alertContainer" class="fixed top-20 right-6 z-50 flex flex-col gap-2 w-80 pointer-events-none"></div>
+
+</div>
