@@ -1,52 +1,26 @@
-<div class="min-h-[80vh] flex flex-col items-center justify-center p-6 bg-gray-50">
-    
-    <div class="text-center mb-12 max-w-2xl mx-auto">
-        <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 animate-fade-in-down">
-            Welcome
-        </h1>
-        <p class="text-lg text-gray-600 leading-relaxed">
-            This is the starting point of our Employee Management System.<br>
-            Choose what you want to explore below.
-        </p>
-    </div>
+<div class="max-w-2xl mx-auto p-6">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Welcome</h1>
 
-        <a href="/employee" data-link class="group relative bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="relative z-10 h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors duration-300">
-                <i class="fa-solid fa-users text-2xl text-blue-600 group-hover:text-white transition-colors duration-300"></i>
-            </div>
-            <h3 class="relative z-10 text-xl font-bold text-gray-800 group-hover:text-blue-700">Employee App</h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2">Manage staff details and records</p>
-        </a>
+  <p class="text-gray-600 mb-8 leading-relaxed">
+    This is the starting point of our Full-Stack learning journey.<br>
+    Choose what you want to explore:
+  </p>
 
-        <a href="/payroll" data-link class="group relative bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="relative z-10 h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-green-600 transition-colors duration-300">
-                <i class="fa-solid fa-file-invoice-dollar text-2xl text-green-600 group-hover:text-white transition-colors duration-300"></i>
-            </div>
-            <h3 class="relative z-10 text-xl font-bold text-gray-800 group-hover:text-green-700">Payroll App</h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2">Process salaries and payments</p>
-        </a>
+  <div class="space-y-4">
 
-        <a href="/projects" data-link class="group relative bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="relative z-10 h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-purple-600 transition-colors duration-300">
-                <i class="fa-solid fa-briefcase text-2xl text-purple-600 group-hover:text-white transition-colors duration-300"></i>
-            </div>
-            <h3 class="relative z-10 text-xl font-bold text-gray-800 group-hover:text-purple-700">Project App</h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2">Track active projects and tasks</p>
-        </a>
+<a href="/employee" data-link
+    class="block w-full px-4 py-3 text-center border border-gray-300 rounded hover:bg-gray-200 transition flex items-center justify-center gap-2">
+    <i class="fa-solid fa-users"></i>
+    employee App
+</a>
 
-        <a href="/api/employee" target="_blank" class="group relative bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="relative z-10 h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-gray-800 transition-colors duration-300">
-                <i class="fa-solid fa-code text-2xl text-gray-600 group-hover:text-white transition-colors duration-300"></i>
-            </div>
-            <h3 class="relative z-10 text-xl font-bold text-gray-800 group-hover:text-gray-900">Raw JSON API</h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2">View backend data directly</p>
-        </a>
+<a href="/api/employee" target="_blank"
+    class="block w-full px-4 py-3 text-center border border-gray-300 rounded hover:bg-gray-200 transition flex items-center justify-center gap-2">
+    <i class="fa-solid fa-code"></i>
+    Raw JSON API
+</a>
 
-    </div>
+
+  </div>
 </div>
